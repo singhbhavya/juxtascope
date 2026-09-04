@@ -1,11 +1,9 @@
 """
-Signature derivation — ported from the ImmGen colon 16a / 16c logic.
-
 Two modes:
-  derive_signatures(group_key)         -> like 16a: each group vs the REST,
+  derive_signatures(group_key)         -> each group vs the REST,
                                           keep genes with logFC > min_lfc,
                                           top-N by logFC (specificity filter).
-  derive_sibling_signatures(comp_key,  -> like 16c: within each compartment,
+  derive_sibling_signatures(comp_key,  -> within  each compartment,
                             group_key)     rank each group vs its SIBLINGS only,
                                            so shared pan-lineage genes (Ptprc,
                                            Vim, ...) are stripped out.
@@ -20,7 +18,7 @@ import scanpy as sc
 
 def derive_signatures(adata, group_key, n_genes=25, min_lfc=1.0,
                       method="wilcoxon", exclude=None, verbose=True):
-    """16a-style: each group vs rest, logFC>min_lfc, top-N by logFC."""
+    """each group vs rest, logFC>min_lfc, top-N by logFC."""
     exclude = exclude or {}
     if verbose:
         print(f"  [sig] {group_key}: {adata.obs[group_key].nunique()} groups, "
@@ -46,7 +44,7 @@ def derive_signatures(adata, group_key, n_genes=25, min_lfc=1.0,
 def derive_sibling_signatures(adata, comp_key, group_key, n_genes=20,
                               min_lfc=0.5, min_per_group=100, exclude=None,
                               method="wilcoxon", verbose=True):
-    """16c-style: within each compartment, rank each group vs its SIBLINGS.
+    """within each compartment, rank each group vs its SIBLINGS.
     Returns {compartment: {group: [genes]}}. Strips pan-lineage shared genes."""
     exclude = exclude or {}
     out = {}

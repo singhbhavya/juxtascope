@@ -1,13 +1,10 @@
 """
-JuxtaScope detect() — a faithful port of the ImmGen colon 16a-16d doublet
-pipeline, generalized + with juxtaposition-pair labeling.
-
-Scoring (ported):
-  * signatures: rank genes per group, keep logFC>threshold (16a: cross vs rest;
-    16c: within-compartment vs siblings, stripping shared pan-lineage genes).
-  * contamination = 2nd-highest foreign signature score (16a).
-  * threshold = DATA-DRIVEN PERCENTILE of the contamination distribution
-    (16b cross p95; 16d within p99) -- NOT a fixed z-score.
+Scoring:
+  * signatures: rank genes per group, keep logFC>threshold (cross vs rest;
+  within-compartment vs siblings, stripping shared pan-lineage genes).
+  * contamination = 2nd-highest foreign signature score.
+  * threshold = percentile of the contamination distribution
+    (cross p95; within p99)
   * doublet = high contamination AND oversized (area OR counts, same percentile).
   * ambiguous_embedded = high contamination, normal size (kept separate: IELs).
   * misclassified = strong foreign identity, low contamination, normal size.
@@ -56,12 +53,11 @@ def detect(adata, compartment_key, celltype_key=None,
     # NOTE: results are added to the returned object; disk .h5ad is only written if save_to is set.
     """
     cross_pctile / within_pctile : percentile of the contamination distribution
-        used as the cutoff (0.95 cross like 16b, 0.99 within like 16d). This is
-        the KEY threshold -- data-driven, not a fixed z.
+        used as the cutoff (0.95 cross, 0.99 within). 
     size_pctile : percentile for 'oversized' (defaults to cross/within pctile).
     min_lfc_cross / min_lfc_within : logFC specificity filter for signatures
-        (1.0 / 0.5, as 16a / 16c) -- keeps broad genes (Vim, Cd74) OUT.
-    sig_exclude : {group: {genes}} to force-drop bleed genes (like 16c SIG_EXCLUDE).
+        (1.0 / 0.5) -- keeps broad genes (Vim, Cd74) out.
+    sig_exclude : {group: {genes}} to force-drop bleed genes.
     """
     ad = adata if inplace else adata.copy()
     counts_vals = _total_counts(ad, counts_key)
