@@ -35,7 +35,7 @@ Because embedded cells are frequently real, JuxtaScope keeps them **separate fro
 
 Size gating can be turned off entirely (`size_gate=False`) — then high co-expression alone flags a cell as `ambiguous_embedded`.
 
-## Two levels & cutoffs (mirroring the original pipeline)
+## Two levels & cutoffs
 
 - **Cross-compartment** (broad key) — default contamination+size cutoff **p95**.
 - **Within-compartment** (granular key) — default **p99**.
