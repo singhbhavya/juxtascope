@@ -44,11 +44,16 @@ ad = js.detect(ad,
     celltype_key="cell_type",        # granular identity -> within (p99)
     size_gate=True,                  # require oversized for a doublet (default)
     embedded_as_doublet=False,       # keep IEL-type embedded cells separate (default)
+    save_to="tissue_juxta.h5ad",     # write results to disk (omit to not save)
     # custom_broad={...}, custom_fine={...},   # optional marker overrides
 )
 
 js.report(ad, celltype_key="cell_type", compartment_key="Compartment",
           outdir="juxtascope_report")
+
+# NOTE: detect() adds js_* columns to the RETURNED object. The input .h5ad on
+# disk is unchanged unless you pass save_to=... (above) or save yourself:
+#     ad.write_h5ad("tissue_juxta.h5ad")
 ```
 
 ## Outputs

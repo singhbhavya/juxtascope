@@ -52,7 +52,8 @@ def detect(adata, compartment_key, celltype_key=None,
            min_lfc_cross=1.0, min_lfc_within=0.5,
            sig_exclude=None, area_key="cell_area", counts_key="transcript_counts",
            n_genes=25, morphology=False, morph_extreme=3.5,
-           inplace=True, verbose=True):
+           inplace=True, save_to=None, verbose=True):
+    # NOTE: results are added to the returned object; disk .h5ad is only written if save_to is set.
     """
     cross_pctile / within_pctile : percentile of the contamination distribution
         used as the cutoff (0.95 cross like 16b, 0.99 within like 16d). This is
@@ -183,4 +184,13 @@ def detect(adata, compartment_key, celltype_key=None,
         vc = pd.Series(status).value_counts()
         print("[juxtascope] status:")
         for k, v in vc.items(): print(f"    {k}: {v:,} ({v/ad.n_obs:.1%})")
+
+    if save_to:
+        # scrub index/columns to plain object dtype so pyarrow-backed strings
+        # don't break the .h5ad write
+        for _df in (ad.obs, ad.var):
+            _df.index = pd.Index(np.asarray(_df.index.tolist(), dtype=object),
+                                 name=_df.index.name)
+        ad.write_h5ad(save_to)
+        if verbose: print(f"[juxtascope] wrote annotated object -> {save_to}")
     return ad
