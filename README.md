@@ -14,7 +14,7 @@
 
 **Juxtaposition & doublet detection** for segmentation-based spatial transcriptomics (Xenium, MERFISH, CosMx). This is meant to be run it *after* annotation to find cells whose transcriptome mixes two identities.The pipeline **labels each by the mixing/juxtaposed pair** (e.g. *Juxtaposed T cell - Macrophage*).
 
-This will work with your **own broad + granular annotations** (as this is a POST-ANNOTATION pipeline), and accepts **custom marker signatures**. Marker genes are identified for broad cellular identities (epithelial, vascular, immune, etc.) as well as within-compartment cellular identities (B cells, T cells, etc) to identify cross-compartment doublets (e.g., Immmune - Vascular) and within-compartment doublets (e.g., Dendritic cell - T cell). 
+This will work with your **own broad + granular annotations** (as this is a POST-ANNOTATION pipeline). While JuxtaScope does its own marker selection, it alternatively accepts **custom marker signatures**. Marker genes are identified for broad cellular identities (epithelial, vascular, immune, etc.) as well as within-compartment cellular identities (B cells, T cells, etc) to identify cross-compartment doublets (e.g., Immmune - Vascular) and within-compartment doublets (e.g., Dendritic cell - T cell). 
 
 ![Pipeline Overview](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/pipeline_overview.png) 
 
@@ -35,7 +35,7 @@ Because embedded cells are frequently real, JuxtaScope keeps them **separate fro
 
 Size gating can be turned off entirely (`size_gate=False`) — then high co-expression alone flags a cell as `ambiguous_embedded`.
 
-## Two levels & cutoffs (mirroring the original pipeline)
+## Two levels & cutoffs
 
 - **Cross-compartment** (broad key) — default contamination+size cutoff **p95**.
 - **Within-compartment** (granular key) — default **p99**.
