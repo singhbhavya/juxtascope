@@ -6,6 +6,8 @@
 
 This will work with your **own broad + granular annotations** (as this is a POST-ANNOTATION pipeline), and accepts **custom marker signatures**. Marker genes are identified for broad cellular identities (epithelial, vascular, immune, etc.) as well as within-compartment cellular identities (B cells, T cells, etc) to identify cross-compartment doublets (e.g., Immmune - Vascular) and within-compartment doublets (e.g., Dendritic cell - T cell). 
 
+![Overview](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/pipeline_overview.pdf)
+
 ## Methodology:
 
 A cell is only called a **confident doublet** when it is **both**:
