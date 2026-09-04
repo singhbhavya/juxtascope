@@ -16,7 +16,7 @@ A cell is only called a **confident doublet** when it is **both**:
 This AND-gate is deliberate, and it separates two physically different things that co-expression *alone* cannot tell apart:
 
 - **`doublet`** — high co-expression **and oversized**. Two cells merged into one segment: a segmentation error producing one chimeric "cell." In most cases, these should be excluded, unless biologically interesting (.
-- **`ambiguous_embedded`** — high co-expression but **normal size**. One real, correctly-sized cell whose transcriptome picks up a *physically adjacent neighbor's* signal because it sits embedded in another tissue — the classic  case being an **intraepithelial lymphocyte (IEL)**: a genuine single T cell living inside the epithelial layer. **This is not a segmentation error — it is often real biology you want to KEEP.** If you labeled it a doublet and filtered doublets out, you would be deleting real IELs.
+- **`ambiguous_embedded`** — high co-expression of multiple cell types but **normal size**. One real, correctly-sized cell whose transcriptome picks up a *physically adjacent neighbor's* signal because it sits embedded in another tissue — one example would be intraepithelial lymphocytes (IELs). In other cases, these cells just need a second-pass / another evaluation. Could be rare cell types that need to be re-annotated, or signal from an adjacent cell. After manual evaluation/curation, they could be re-classified as juxtaposed or as a singular cell type. 
 - **`misclassified`** — a strong *foreign* single identity, low co-expression, normal size: one cell that simply carries the wrong label.
 
 Because embedded cells are frequently real, JuxtaScope keeps them **separate from doublets by default**. Set `embedded_as_doublet=True` if you want the stricter filter that treats them as doublets too. Preserve the information by default; collapse only when you choose to.
@@ -61,6 +61,8 @@ misclassified), `js_pair` (the labeled mixing pair), `js_level` (cross/within),
 - `chosen_markers.csv` — markers used to delineate each broad & granular type
 - `celltype_metrics.csv` — per cell type AND per pair: mean cell area, nucleus count, transcripts
 - `metric_*.png` — bar charts of those metrics
+
+![Juxtaposed UMAP]([image-url](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/umap_broad_flags_grey.png))
 
 ## Custom markers
 
