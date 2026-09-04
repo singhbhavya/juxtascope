@@ -62,7 +62,7 @@ misclassified), `js_pair` (the labeled mixing pair), `js_level` (cross/within),
 - `celltype_metrics.csv` — per cell type AND per pair: mean cell area, nucleus count, transcripts
 - `metric_*.png` — bar charts of those metrics
 
-![Juxtaposed UMAP]([image-url](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/umap_broad_flags_grey.png))
+![Juxtaposed UMAP](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/umap_broad_flags_grey.png)
 
 ## Custom markers
 
