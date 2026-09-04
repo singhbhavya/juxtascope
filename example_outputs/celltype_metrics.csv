@@ -1,0 +1,56 @@
+group,n_cells,mean_transcripts,mean_cell_area,mean_nucleus_area,mean_nucleus_count,kind
+B,2725,181.7,767.5,608.9,1.0,cell_type
+Blood-EC,18914,179.8,887.5,645.7,0.9,cell_type
+DC,7014,171.8,822.1,608.7,0.9,cell_type
+EEC,6974,193.4,1285.7,821.6,0.9,cell_type
+Enterocyte,248557,193.5,1196.8,742.5,0.9,cell_type
+Fibroblast,92851,175.7,904.2,658.6,0.9,cell_type
+Glia,11692,181.5,1150.8,713.2,0.8,cell_type
+Goblet,104520,159.0,1020.6,685.6,0.9,cell_type
+ICC,13261,179.3,984.9,721.1,0.9,cell_type
+ILC,509,191.8,619.4,526.2,1.0,cell_type
+Lymphatic-EC,8930,172.8,957.0,695.8,0.9,cell_type
+Mast,163,81.5,611.6,505.0,0.7,cell_type
+Mural-pericyte,8562,164.8,863.0,646.9,0.9,cell_type
+Muscle,80011,133.7,754.2,605.3,0.8,cell_type
+Myeloid,12144,175.7,846.5,632.5,1.0,cell_type
+Neutrophil,178,98.8,601.5,477.7,0.9,cell_type
+Plasma,4637,147.4,968.0,658.3,1.0,cell_type
+Stem-TA,21770,214.8,1171.5,821.6,0.9,cell_type
+T-NK,4223,191.6,873.8,676.9,1.0,cell_type
+Tuft,3188,206.1,1173.4,771.0,0.9,cell_type
+Juxtaposed Blood-EC - Blood-EC,1,240.9,4253.0,2421.0,1.0,juxtaposition
+Juxtaposed EEC - EEC,3,191.1,2421.3,1422.3,1.0,juxtaposition
+Juxtaposed Enterocyte - Enterocyte,6,177.3,3505.8,1164.8,0.8,juxtaposition
+Juxtaposed Enterocyte - Goblet,19,177.6,3879.6,1506.8,0.4,juxtaposition
+Juxtaposed Enterocyte - Tuft,10,223.9,3105.6,1038.3,0.7,juxtaposition
+Juxtaposed Epithelial - Immune,826,158.9,914.5,659.9,1.0,juxtaposition
+Juxtaposed Epithelial - Neural,1519,179.9,1267.2,809.5,0.9,juxtaposition
+Juxtaposed Epithelial - Stroma,1589,135.5,816.1,597.5,0.9,juxtaposition
+Juxtaposed Epithelial - Vascular,2982,184.4,1213.1,784.7,0.9,juxtaposition
+Juxtaposed Goblet - Enterocyte,4,135.0,3558.5,1342.0,0.2,juxtaposition
+Juxtaposed Goblet - Goblet,16,196.7,3319.3,1240.6,0.8,juxtaposition
+Juxtaposed Goblet - Stem-TA,7,216.9,3217.0,1364.6,1.0,juxtaposition
+Juxtaposed ICC - ICC,1,222.9,3230.0,1015.0,1.0,juxtaposition
+Juxtaposed Immune - Epithelial,276,180.4,881.6,641.7,1.0,juxtaposition
+Juxtaposed Immune - Neural,151,164.8,828.8,612.1,0.9,juxtaposition
+Juxtaposed Immune - Stroma,3144,172.0,887.2,650.0,0.9,juxtaposition
+Juxtaposed Immune - Vascular,815,176.6,847.3,629.0,1.0,juxtaposition
+Juxtaposed Neural - Epithelial,2,193.1,1014.5,739.5,1.0,juxtaposition
+Juxtaposed Neural - Immune,46,190.4,1158.6,659.4,0.9,juxtaposition
+Juxtaposed Neural - Stroma,5486,174.0,967.4,659.8,0.8,juxtaposition
+Juxtaposed Neural - Vascular,64,190.6,1157.0,712.0,0.9,juxtaposition
+Juxtaposed Stem-TA - Goblet,3,243.7,3392.7,1862.3,1.0,juxtaposition
+Juxtaposed Stem-TA - Stem-TA,3,237.8,3046.3,1695.3,1.0,juxtaposition
+Juxtaposed Stem-TA - Tuft,1,252.3,2584.0,1287.0,1.0,juxtaposition
+Juxtaposed Stroma - Epithelial,634,172.4,860.9,626.1,1.0,juxtaposition
+Juxtaposed Stroma - Immune,3237,177.7,929.3,652.0,0.9,juxtaposition
+Juxtaposed Stroma - Neural,3635,159.1,889.5,651.5,0.8,juxtaposition
+Juxtaposed Stroma - Vascular,4697,173.5,1000.4,675.5,0.9,juxtaposition
+Juxtaposed Tuft - Enterocyte,29,225.4,2786.2,1093.6,1.0,juxtaposition
+Juxtaposed Tuft - Goblet,1,233.0,2540.0,998.0,1.0,juxtaposition
+Juxtaposed Tuft - Tuft,19,223.9,3256.2,1112.7,0.9,juxtaposition
+Juxtaposed Vascular - Epithelial,566,188.3,1015.0,675.9,0.9,juxtaposition
+Juxtaposed Vascular - Immune,783,186.8,946.8,687.5,1.0,juxtaposition
+Juxtaposed Vascular - Neural,258,162.4,875.9,604.5,0.9,juxtaposition
+Juxtaposed Vascular - Stroma,7842,176.6,982.4,685.7,0.9,juxtaposition

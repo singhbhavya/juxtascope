@@ -1,0 +1,11 @@
+pair,n,example_own,example_foreign,coexpr_markers
+Stroma | Vascular,12540,Vascular,Stroma,"Acta2,Tagln,Myh11,Des,Flna"
+Neural | Stroma,9122,Neural,Stroma,"Acta2,Tagln,Myh11,Des,Flna"
+Immune | Stroma,6381,Stroma,Immune,"Cd74,Csf1r,Lyz1,Mrc1,Adgre1"
+Epithelial | Vascular,3621,Epithelial,Vascular,"Podxl,Fabp4,Ccl21a,Pecam1,Plvap"
+Epithelial | Stroma,2225,Epithelial,Stroma,"Acta2,Tagln,Myh11,Des,Flna"
+Immune | Vascular,1598,Immune,Vascular,"Podxl,Fabp4,Ccl21a,Pecam1,Plvap"
+Epithelial | Neural,1566,Epithelial,Neural,"Col18a1,Serpine2,Abca8a,C4b,Gfra1"
+Epithelial | Immune,1103,Epithelial,Immune,"Cd74,Csf1r,Lyz1,Mrc1,Adgre1"
+Neural | Vascular,322,Vascular,Neural,"Col18a1,Serpine2,Abca8a,C4b,Gfra1"
+Immune | Neural,197,Immune,Neural,"Col18a1,Serpine2,Abca8a,C4b,Gfra1"

@@ -7,9 +7,44 @@ import numpy as np
 import pandas as pd
 
 
-# compartment base hues (shared with the hierarchical UMAP scheme)
-COMP_HUE = {"Epithelial":"#1f77b4","Immune":"#d62728","Stroma":"#ff7f0e",
-            "Vascular":"#2ca02c","Neural":"#9467bd"}
+# OPTIONAL preferred hues for commonly-seen compartment names, so figures stay
+# consistent when these names appear. Any compartment NOT in here (i.e. another
+# tissue's naming) is assigned a distinct hue automatically -- nothing is
+# hardcoded as required.
+PREFERRED_HUE = {"Epithelial":"#1f77b4","Immune":"#d62728","Stroma":"#ff7f0e",
+                 "Vascular":"#2ca02c","Neural":"#9467bd"}
+
+
+def _assign_compartment_hues(compartments):
+    """Build {compartment: hex hue} for WHATEVER compartments the data has.
+    Known names get their preferred hue; unknown names get evenly-spaced hues
+    from HSV space that avoid collisions with the preferred ones."""
+    import colorsys, matplotlib.colors as mcolors
+    comps = list(compartments)
+    used_hues = set()
+    hue_map = {}
+    # 1) assign preferred hues to any recognized names
+    for c in comps:
+        if c in PREFERRED_HUE:
+            hue_map[c] = PREFERRED_HUE[c]
+            h,_,_ = colorsys.rgb_to_hsv(*mcolors.to_rgb(PREFERRED_HUE[c]))
+            used_hues.add(round(h,2))
+    # 2) auto-assign the rest to evenly spaced hues not near the used ones
+    unknown = [c for c in comps if c not in hue_map]
+    if unknown:
+        # candidate hues spread around the wheel
+        cands = [i/ max(len(comps),1) for i in range(len(comps)*2)]
+        cands = [h for h in cands if all(abs(h-u) > 0.06 for u in used_hues)]
+        k = 0
+        for c in unknown:
+            h = cands[k % len(cands)] if cands else (k/ max(len(unknown),1))
+            k += 1
+            hue_map[c] = mcolors.to_hex(colorsys.hsv_to_rgb(h, 0.65, 0.85))
+    return hue_map
+
+
+# module-level cache filled per-call by the palette functions below
+COMP_HUE = dict(PREFERRED_HUE)   # back-compat default; overwritten at runtime
 
 
 def _shades(hue, n):
@@ -27,26 +62,27 @@ def _shades(hue, n):
 
 
 def _compartment_palette(obs, comp_key):
-    import matplotlib.cm as _cm, matplotlib.colors as _mc
     cats = [c for c in pd.Categorical(obs[comp_key].astype(str)).categories]
-    extra = _cm.get_cmap("tab10", 10)
-    return {c: COMP_HUE.get(c, _mc.to_hex(extra(i%10))) for i,c in enumerate(cats)}
+    return _assign_compartment_hues(cats)
 
 
 def _hier_palette(obs, comp_key, child_key):
     """each child (Middle/MiddleSub) -> a shade of its Compartment's hue,
-    with a per-group hue nudge so siblings stay distinguishable."""
+    with a per-group hue nudge so siblings stay distinguishable. Compartment
+    hues are assigned from WHATEVER compartments the data has (tissue-agnostic)."""
     import colorsys, matplotlib.colors as mcolors
     palette = {}
     if comp_key not in obs.columns or child_key not in obs.columns:
         return _compartment_palette(obs, child_key)
+    comps = [c for c in pd.Categorical(obs[comp_key].astype(str)).categories]
+    hue_map = _assign_compartment_hues(comps)
     comp_of = (obs.groupby(child_key, observed=True)[comp_key]
                .agg(lambda s: s.astype(str).mode().iloc[0]).to_dict())
     by_comp = {}
     for ch in pd.Categorical(obs[child_key].astype(str)).categories:
         by_comp.setdefault(comp_of.get(ch,"other"), []).append(ch)
     for comp, kids in by_comp.items():
-        base = COMP_HUE.get(comp, "#888888")
+        base = hue_map.get(comp, "#888888")
         r,g,b = mcolors.to_rgb(base); h,s,v = colorsys.rgb_to_hsv(r,g,b)
         for j, ch in enumerate(sorted(kids)):
             hj = (h + (j-len(kids)/2)*0.045) % 1.0
