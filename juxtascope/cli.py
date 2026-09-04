@@ -26,7 +26,7 @@ def main(argv=None):
     a = p.parse_args(argv)
 
     import scanpy as sc
-    from .detect import detect
+    from .detect import detect, _depyarrow
     from .report import report as _report
 
     ad = sc.read_h5ad(a.h5ad)
@@ -35,6 +35,7 @@ def main(argv=None):
                 morphology=not a.no_morphology,
                 cross_z=a.cross_z, morph_anomalous=a.morph_anomalous,
                 morph_extreme=a.morph_extreme)
+    _depyarrow(ad)
     ad.write_h5ad(a.out)
     if a.report_dir:
         _report(ad, celltype_key=a.celltype_key or a.compartment_key,

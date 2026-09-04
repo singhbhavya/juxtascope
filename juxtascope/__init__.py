@@ -14,11 +14,19 @@ optional user-supplied marker signatures.
     js.report(ad, celltype_key="cell_type", compartment_key="Compartment",
               outdir="juxtascope_report")
 """
-from .detect import detect
+import pandas as _pd
+_pd.set_option("mode.string_storage", "python")
+try:
+    _pd.set_option("future.infer_string", False)
+except Exception:
+    pass
+
+
+from .detect import detect, _depyarrow
 from .report import (report, pair_summary, markers_table, celltype_metrics)
 from .signatures import derive_signatures, derive_sibling_signatures
 from .morphology import morphology_scores, check_morphology_discriminates
 
 __version__ = "0.2.0"
-__all__ = ["detect","report","pair_summary","markers_table","celltype_metrics",
+__all__ = ["detect","_depyarrow","report","pair_summary","markers_table","celltype_metrics",
            "derive_signatures","morphology_scores","check_morphology_discriminates"]

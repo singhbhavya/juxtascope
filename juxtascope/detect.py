@@ -186,11 +186,37 @@ def detect(adata, compartment_key, celltype_key=None,
         for k, v in vc.items(): print(f"    {k}: {v:,} ({v/ad.n_obs:.1%})")
 
     if save_to:
-        # scrub index/columns to plain object dtype so pyarrow-backed strings
-        # don't break the .h5ad write
-        for _df in (ad.obs, ad.var):
-            _df.index = pd.Index(np.asarray(_df.index.tolist(), dtype=object),
-                                 name=_df.index.name)
+        _depyarrow(ad)
         ad.write_h5ad(save_to)
         if verbose: print(f"[juxtascope] wrote annotated object -> {save_to}")
     return ad
+
+
+def _depyarrow(ad):
+    """Rebuild index/columns and any Arrow-backed string columns as plain
+    numpy object dtype, so anndata can serialize to .h5ad. Mirrors the scrub
+    used throughout the ImmGen pipeline scripts."""
+    import numpy as _np
+    # force the storage options OFF for the duration, so nothing re-infers to
+    # an Arrow/str-backed dtype while we rebuild
+    try:
+        pd.set_option("mode.string_storage", "python")
+        pd.set_option("future.infer_string", False)
+    except Exception:
+        pass
+    for _df in (ad.obs, ad.var):
+        idx = _np.array(list(map(str, _df.index.tolist())), dtype=object)
+        _df.index = pd.Index(idx, dtype=object, name=_df.index.name)
+        for col in list(_df.columns):
+            dt = str(_df[col].dtype)
+            if isinstance(_df[col].dtype, pd.CategoricalDtype):
+                cats = _df[col].cat.categories
+                if ("string" in str(cats.dtype) or "arrow" in str(cats.dtype).lower()):
+                    vals = _np.array(list(map(str, _df[col].astype(str).tolist())),
+                                     dtype=object)
+                    _df[col] = pd.Categorical(vals)
+            elif "string" in dt or "arrow" in dt.lower():
+                _df[col] = _np.array(list(map(str, _df[col].tolist())), dtype=object)
+    # also scrub var_names / obs_names explicitly (anndata uses these)
+    ad.obs_names = _np.array(list(map(str, ad.obs_names)), dtype=object)
+    ad.var_names = _np.array(list(map(str, ad.var_names)), dtype=object)
