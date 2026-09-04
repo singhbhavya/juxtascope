@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "juxtascope"
+version = "0.1.0"
+description = "Post-annotation doublet/mixed-population detection for segmentation-based spatial transcriptomics"
+requires-python = ">=3.9"
+dependencies = ["scanpy>=1.9","anndata","numpy","pandas","scipy"]
+
+[project.scripts]
+juxtascope = "juxtascope.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["juxtascope*"]
