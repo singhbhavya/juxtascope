@@ -2,11 +2,21 @@
 
 > **Status: v0.2 beta.** 
 
+## Requirements
+- python >=3.9
+- scanpy>=1.9
+- anndata
+- numpy
+- pandas
+- scipy
+
+## Overview
+
 **Juxtaposition & doublet detection** for segmentation-based spatial transcriptomics (Xenium, MERFISH, CosMx). This is meant to be run it *after* annotation to find cells whose transcriptome mixes two identities.The pipeline **labels each by the mixing/juxtaposed pair** (e.g. *Juxtaposed T cell - Macrophage*).
 
 This will work with your **own broad + granular annotations** (as this is a POST-ANNOTATION pipeline), and accepts **custom marker signatures**. Marker genes are identified for broad cellular identities (epithelial, vascular, immune, etc.) as well as within-compartment cellular identities (B cells, T cells, etc) to identify cross-compartment doublets (e.g., Immmune - Vascular) and within-compartment doublets (e.g., Dendritic cell - T cell). 
 
-![Overview](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/pipeline_overview.pdf)
+![Pipeline Overview](https://github.com/singhbhavya/juxtascope/blob/main/example_outputs/pipeline_overview.png) 
 
 ## Methodology:
 
