@@ -1,47 +1,27 @@
 # JuxtaScope
 
-> **Status: v0.2 beta.** Validated on ImmGen Xenium colon against the reference 16a-d pipeline: cell-level agreement Jaccard **0.63** on confident doublets and **0.57** on all flagged cells, with categories mapping consistently (doublet->cross_doublet, ambiguous_embedded->cross_ambiguous, misclassified->misclassified). Use with review; report issues.
+> **Status: v0.2 beta.** 
 
-**Juxtaposition & doublet detection** for segmentation-based spatial
-transcriptomics (Xenium, MERFISH, CosMx). A generalized, packaged version of the
-ImmGen colon doublet pipeline: run it *after* annotation to find cells whose
-transcriptome mixes two identities, and **label each by the mixing pair**
-(e.g. *Juxtaposed T cell - Macrophage*).
+**Juxtaposition & doublet detection** for segmentation-based spatial transcriptomics (Xenium, MERFISH, CosMx). This is meant to be run it *after* annotation to find cells whose transcriptome mixes two identities.The pipeline **labels each by the mixing/juxtaposed pair** (e.g. *Juxtaposed T cell - Macrophage*).
 
-Works with your **own broad + granular annotations OR reference/Pointillist
-predictions**, and accepts **custom marker signatures**.
+This will work with your **own broad + granular annotations** (as this is a POST-ANNOTATION pipeline), and accepts **custom marker signatures**. Marker genes are identified for broad cellular identities (epithelial, vascular, immune, etc.) as well as within-compartment cellular identities (B cells, T cells, etc) to identify cross-compartment doublets (e.g., Immmune - Vascular) and within-compartment doublets (e.g., Dendritic cell - T cell). 
 
-## The core rule (why size matters)
+## Methodology:
 
 A cell is only called a **confident doublet** when it is **both**:
 
 1. **high in a foreign identity's markers** (co-expresses another cell type's program), **AND**
-2. **oversized** — larger cell area or more transcripts than the pXX cutoff.
+2. **oversized** — larger cell area or more transcripts than the pXX (default: p95 for cross-compartment and p99 for within-compartment) cutoff.
 
-This AND-gate is deliberate, and it separates two physically different things
-that co-expression *alone* cannot tell apart:
+This AND-gate is deliberate, and it separates two physically different things that co-expression *alone* cannot tell apart:
 
-- **`doublet`** — high co-expression **and oversized**. Two cells merged into one
-  segment: a segmentation error producing one chimeric "cell." Usually you want
-  to **exclude** these.
-- **`ambiguous_embedded`** — high co-expression but **normal size**. One real,
-  correctly-sized cell whose transcriptome picks up a *physically adjacent
-  neighbor's* signal because it sits embedded in another tissue — the classic
-  case being an **intraepithelial lymphocyte (IEL)**: a genuine single T cell
-  living inside the epithelial layer. **This is not a segmentation error — it is
-  often real biology you want to KEEP.** If you labeled it a doublet and filtered
-  doublets out, you would be deleting real IELs.
-- **`misclassified`** — a strong *foreign* single identity, low co-expression,
-  normal size: one cell that simply carries the wrong label.
+- **`doublet`** — high co-expression **and oversized**. Two cells merged into one segment: a segmentation error producing one chimeric "cell." In most cases, these should be excluded, unless biologically interesting (.
+- **`ambiguous_embedded`** — high co-expression but **normal size**. One real, correctly-sized cell whose transcriptome picks up a *physically adjacent neighbor's* signal because it sits embedded in another tissue — the classic  case being an **intraepithelial lymphocyte (IEL)**: a genuine single T cell living inside the epithelial layer. **This is not a segmentation error — it is often real biology you want to KEEP.** If you labeled it a doublet and filtered doublets out, you would be deleting real IELs.
+- **`misclassified`** — a strong *foreign* single identity, low co-expression, normal size: one cell that simply carries the wrong label.
 
-Because embedded cells are frequently real, JuxtaScope keeps them **separate from
-doublets by default**. Set `embedded_as_doublet=True` if you want the stricter
-filter that treats them as doublets too. Preserve the information by default;
-collapse only when you choose to.
+Because embedded cells are frequently real, JuxtaScope keeps them **separate from doublets by default**. Set `embedded_as_doublet=True` if you want the stricter filter that treats them as doublets too. Preserve the information by default; collapse only when you choose to.
 
-Size gating can be turned off entirely (`size_gate=False`) — then high
-co-expression alone flags a cell as `ambiguous_embedded` — but the default
-mirrors the validated ImmGen pipeline (size gate ON).
+Size gating can be turned off entirely (`size_gate=False`) — then high co-expression alone flags a cell as `ambiguous_embedded`.
 
 ## Two levels & cutoffs (mirroring the original pipeline)
 
